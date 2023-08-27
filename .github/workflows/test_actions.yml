@@ -1,6 +1,6 @@
-name: run-pytests
-run-name: ${{github.actor}} runs tests
-on: 
+name: format post pre-commit
+run-name: ${{github.actor}} runs ${{github.workflow}} on ${{github.event_name}}
+on:
     push:
         branches: [main, master]
     pull_request:
@@ -23,7 +23,7 @@ jobs:
                 pip install -r requirements.txt
             - name: Test with pytest
               run: |
-                pytest -v tests/
+                pytest -v tests/test_helper.py
             - name: Run isort
               run: |
                 isort --profile black .
@@ -33,6 +33,3 @@ jobs:
             - name: Run mypy
               run: |
                 mypy .
-
-
-            

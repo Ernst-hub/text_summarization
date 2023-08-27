@@ -3,14 +3,13 @@ import sys
 
 from fastapi import FastAPI
 from pydantic import BaseModel
-
+import sys
+# append parent directory to sys.path
 sys.path.append("..")
-print(sys.path)
 # import llama_summarizer, from ollama_langchain/summarizer.py
-from summarizer import llama_summarizer
+from src.summarizer import llama_summarizer
 
 app = FastAPI()
-
 
 class SummaryRequest(BaseModel):
     url: str
@@ -20,6 +19,18 @@ class SummaryRequest(BaseModel):
     model: str
     embedding_model: str
 
+
+def run_summarizer(url, question, retriever, device, model, embedding_model):
+    summarizer = llama_summarizer(
+        url=url,
+        question=question,
+        retriever=retriever,
+        device=device,
+        model=model,
+        embedding_model=embedding_model,
+    )
+    summarizer.generate()
+    return summarizer.answ["result"].strip()
 
 @app.post("/summarize")
 async def summarize_text(request: SummaryRequest):
@@ -36,33 +47,14 @@ async def summarize_text(request: SummaryRequest):
     Returns:
         str: Summarized text.
     """
-    url = request.url
-    question = request.question
-    retriever = request.retriever
-    device = request.device
-    model = request.model
-    embedding_model = request.embedding_model
 
-    sum_text = llama_summarizer(
-        url=url,
-        question=question,
-        retriever=retriever,
-        device=device,
-        model=model,
-        embedding_model=embedding_model,
+    sum_text = run_summarizer(
+            url=request.url,
+            question=request.question,
+            retriever = request.retriever,
+            device = request.device,
+            model = request.model,
+            embedding_model = request.embedding_model
     )
 
-    sum_text = (
-        sum_text.scrape_text()
-        .split_text()
-        .instantiate_embeddings()
-        .instantiate_llm()
-        .instantiate_retriever()
-        .instantiate_qa_chain()
-        .generate()
-    )
-    temp = sum_text.answ["result"].strip()
-
-    del sum_text
-
-    return {"Summary": temp}
+    return {"Summary": sum_text}

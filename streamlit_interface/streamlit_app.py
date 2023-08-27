@@ -1,6 +1,8 @@
+import sys
+# append parent directory to sys.path
+sys.path.append("..")
+from src.summarizer import llama_summarizer
 import streamlit as st
-
-from summarizer import llama_summarizer
 
 # title of the app
 st.title("OLlama for text summarization")
@@ -98,7 +100,7 @@ if st.button(
             embedding_opt,
         )
 
-    box_height = int(len(summary) * 0.55)
+    box_height = int(len(summary) * 0.35)
     st.text_area(
         "Summary", value=summary, height=box_height, max_chars=None, key=None
     )

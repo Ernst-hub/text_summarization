@@ -1,12 +1,10 @@
-# extend path to import from parent directory
 import sys
 
 from fastapi import FastAPI
 from pydantic import BaseModel
 import sys
-# append parent directory to sys.path
+
 sys.path.append("..")
-# import llama_summarizer, from ollama_langchain/summarizer.py
 from src.summarizer import llama_summarizer
 
 app = FastAPI()
@@ -18,7 +16,6 @@ class SummaryRequest(BaseModel):
     device: str
     model: str
     embedding_model: str
-
 
 def run_summarizer(url, question, retriever, device, model, embedding_model):
     summarizer = llama_summarizer(

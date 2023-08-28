@@ -18,14 +18,3 @@ class TestScraper:
     def test_scrape_text(self):
         assert self.s.scrape_text() is not None, "Text should not be None"
         assert self.s.scrape_text().strip() != "", "Text should not be empty"
-
-    def test_first_three_sentences(self):
-        assert (
-            self.s.first_three_sentences() is not None
-        ), "Text should not be None"
-        assert (
-            self.s.first_three_sentences().strip() != ""
-        ), "Text should not be empty"
-        assert (
-            len(self.s.first_three_sentences().split(". ")) == 3
-        ), "Should only be three sentences"

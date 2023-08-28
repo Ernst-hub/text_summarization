@@ -1,10 +1,6 @@
 import sys
-
 import pytest
-
-# extend path to import from parent directory
 from tests import _TEST_ROOT
-
 sys.path.append(_TEST_ROOT)
 
 from src.summarizer import llama_summarizer

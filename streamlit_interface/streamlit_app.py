@@ -56,15 +56,6 @@ with st.sidebar:
             st.cache_data.clear()
             st.cache_resource.clear()
             st.experimental_rerun()
-            del url
-            del question
-            del summary
-            del embedding_opt
-            del retriever_opt
-            del device_opt
-            del model_opt
-            del summarizer
-            box_height = 0
 
 
 # with col1:
@@ -80,8 +71,6 @@ enable_button = bool(url and question)
 
 # define function to do summarization, to re initialize the model.
 def run_summarizer(url, question, retriever, device, model, embedding_model):
-    # print(f"embedding model: {embedding_model}")
-    # st.write(f"embedding model: {embedding_model}")
     summarizer = llama_summarizer(
         url=url,
         question=question,

@@ -14,9 +14,14 @@ with st.sidebar:
     device_opt = st.selectbox("Device", ("mps", "cpu", "cuda"))
     model_opt = st.selectbox("Llama", ("summarizev2", "summarize"))
     embedding_opt = st.selectbox("Embedding model", ("large", "small"))
+
+
+    st.write(f"embeddings: {embedding_opt}")
     # line breaks
     st.write("\n")
     st.write("\n")
+
+
 
     col1, col2 = st.columns([2, 1])
 
@@ -51,10 +56,16 @@ with st.sidebar:
             st.cache_data.clear()
             st.cache_resource.clear()
             st.experimental_rerun()
-            url = ""
-            question = ""
-            summary = ""
+            del url
+            del question
+            del summary
+            del embedding_opt
+            del retriever_opt
+            del device_opt
+            del model_opt
+            del summarizer
             box_height = 0
+
 
 # with col1:
 url = st.text_input(
@@ -65,12 +76,12 @@ question = st.text_input(
     "Enter a question to ask the model", placeholder="Summarize this text:"
 )
 
-
 enable_button = bool(url and question)
-
 
 # define function to do summarization, to re initialize the model.
 def run_summarizer(url, question, retriever, device, model, embedding_model):
+    # print(f"embedding model: {embedding_model}")
+    # st.write(f"embedding model: {embedding_model}")
     summarizer = llama_summarizer(
         url=url,
         question=question,
@@ -80,7 +91,9 @@ def run_summarizer(url, question, retriever, device, model, embedding_model):
         embedding_model=embedding_model,
     )
     summarizer.generate()
-    return summarizer.answ["result"].strip()
+    x = summarizer.answ["result"].strip()
+    summarizer.clear_cache()
+    return x
 
 
 st.text("")
@@ -92,12 +105,12 @@ if st.button(
     # button trigger summarization
     with st.spinner("Summarizing..."):
         summary = run_summarizer(
-            url,
-            question,
-            retriever_opt,
-            device_opt,
-            model_opt,
-            embedding_opt,
+            url = url,
+            question = question,
+            retriever = retriever_opt,
+            device = device_opt,
+            model = model_opt,
+            embedding_model=embedding_opt,
         )
 
     box_height = int(len(summary) * 0.35)

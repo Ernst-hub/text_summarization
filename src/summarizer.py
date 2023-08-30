@@ -9,8 +9,7 @@ from langchain.chains import RetrievalQA
 
 # embeddings
 from langchain.embeddings import (
-    HuggingFaceBgeEmbeddings,
-    SentenceTransformerEmbeddings,
+    HuggingFaceBgeEmbeddings
 )
 
 # llm
@@ -27,8 +26,6 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma, Qdrant
 
 from src.helper import log_method_call
-
-# local
 from src.urlreader import Scraper
 
 
@@ -70,7 +67,7 @@ class llama_summarizer:
         model: Optional[str] = "summarizev2",
         base_url: Optional[str] = "http://localhost:11434",
         verbose: Optional[bool] = False,
-        chunk_size: Optional[int] = 800,
+        chunk_size: Optional[int] = 512,
         embedding_model: Literal["large", "small"] = "large",
         retriever: Literal["default", "SVM", "MultiQuery"] = "default",
         device: Literal["cpu", "mps", "cuda"] = "cpu",
@@ -133,16 +130,19 @@ class llama_summarizer:
     def instantiate_embeddings(self):
         """Instantiate embeddings using either HuggingFaceBgeEmbeddings or SentenceTransformerEmbeddings."""
         if self.embedding_model == "large":
-            hf = HuggingFaceBgeEmbeddings(
+            bge_large = HuggingFaceBgeEmbeddings(
                 model_name="BAAI/bge-large-en",
                 model_kwargs={"device": self.device},
                 encode_kwargs={"normalize_embeddings": True},
             )
-            self.embeddings = hf
+            self.embeddings = bge_large
         elif self.embedding_model == "small":
-            self.embeddings = SentenceTransformerEmbeddings(
-                model_name="all-MiniLM-L6-v2"
+            bge_small = HuggingFaceBgeEmbeddings(
+                model_name="BAAI/bge-small-en",
+                model_kwargs={"device": self.device},
+                encode_kwargs={"normalize_embeddings": True},
             )
+            self.embeddings = bge_small
         return self
 
     @log_method_call
@@ -231,4 +231,4 @@ class llama_summarizer:
         self.retriever = None
         self.qa_chain = None
         self.answ = None
-        return self
+        del self

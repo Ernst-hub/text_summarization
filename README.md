@@ -23,16 +23,16 @@ The following installation steps are required to run the project:
 2. Install the requirements
 3. Setup [Ollama](https://ollama.ai/)
    1. Install Ollama
-   2. Pull the model: "llama2-7b" (chat)
-   3. Use the model file to create a QA model called "summarizev2"
+   2. Pull the model: "llama2-7b" (chat) (CMD: `ollama pull llama2:latest` (fine-tuned 7b parm model)
+   3. Use the model file to create a QA model called "summarizev2" (CMD: `ollama create summarizev2 -f ./Modelfile`)
 4. Either run the model via the command line or via the web interface
 
 ## Usage
 
 **command line:**
-locate the file `main.py` and run it via the command line.
+locate the repositorry folder and type the following in the command line.
 
-Example usage: `python main.py --url="https://en.wikipedia.org/wiki/Francisco_Goya" --question="Who was Goya?"`
+Example usage: `python -m src.main --url="https://en.wikipedia.org/wiki/Francisco_Goya" --question="Who was Goya?"`
 
 *Arguments*
 

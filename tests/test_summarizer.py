@@ -39,7 +39,7 @@ class TestSummarizerInit:
             ("model", "summarizev2"),
             ("base_url", "http://localhost:11434"),
             ("verbose", False),
-            ("chunk_size", 800),
+            ("chunk_size", 512),
             ("embedding_model", "large"),
             ("retriever", "default"),
             ("device", "cpu"),

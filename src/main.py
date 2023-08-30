@@ -4,6 +4,8 @@
 from typing import Literal
 import click
 from yaspin import yaspin
+
+
 from src.summarizer import llama_summarizer
 
 
@@ -42,19 +44,19 @@ from src.summarizer import llama_summarizer
 @click.option(
     "--embedding-model",
     default="large",
-    type=Literal["large", "small"],
+    type=str,
     help="Embedding model to use.",
 )
 @click.option(
     "--retriever",
     default="default",
-    type=Literal["default", "SVM", "MultiQuery"],
+    type=str,
     help="Retriever to use.",
 )
 @click.option(
     "--device",
     default="cpu",
-    type=Literal["cpu", "cuda", "mps"],
+    type=str,
     help="Device to use.",
 )
 def summarize_text(

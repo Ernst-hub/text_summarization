@@ -34,7 +34,7 @@ with st.sidebar:
 
     with col2:
         st.markdown(
-            f'<a href="https://your-url.com" target="_blank" style="font-size:12px;">Link to website</a>',
+            f'<a href="https://ollama.ai/" target="_blank" style="font-size:12px;">Link to website</a>',
             unsafe_allow_html=True,
         )
 

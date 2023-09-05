@@ -105,9 +105,7 @@ class llama_summarizer:
         # Read text from URL
         scrpr = Scraper(url=self.url, first_three=False)
 
-        self.text = (
-            "[question: " + self.question + "] [" + scrpr.scrape_text() + "]"
-        )
+        self.text = f"[question: {self.question}] [text: {scrpr.scrape_text()}]"
 
         return self
 
@@ -231,4 +229,5 @@ class llama_summarizer:
         self.retriever = None
         self.qa_chain = None
         self.answ = None
+        self.device = None
         del self

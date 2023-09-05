@@ -1,2 +1,4 @@
 papers
 requirements_1.txt
+.dockerignore
+run_app.Dockerfile

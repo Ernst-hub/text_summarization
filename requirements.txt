@@ -17,3 +17,4 @@ black==23.3.0
 qdrant-client==1.4.0
 sentence-transformers==2.2.2
 pre-commit==3.3.3
+chromadb==0.4.7
